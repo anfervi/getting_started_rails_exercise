@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   get 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest
@@ -7,8 +8,16 @@ Rails.application.routes.draw do
   resources :articles do
     resources :comments
   end
+
+  authenticated :user do
+    root to:'welcome#index', as: :authenticated_root
+  end
+  root to: redirect('/users/sign_in')
+
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
