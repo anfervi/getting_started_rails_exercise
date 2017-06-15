@@ -9,4 +9,6 @@ class User < ActiveRecord::Base
   validates :second_surname, presence: true
   validates :email, presence: true, uniqueness: true
   
+  enum user_roles: { admin: 0, writes: 1, reader: 2}
+
 end
